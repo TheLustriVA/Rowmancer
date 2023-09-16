@@ -9,7 +9,11 @@ console = Console()
 @click.option('-b', '--blank', is_flag=True, help="Count blank/non-parsable CSV/TSV files.")
 @click.option('-l', '--readable', is_flag=True, help="Show numbers in a more readable format.")
 @click.argument('dir', required=False, default='.')
-def cli(count_files, blank, readable, dir):
+@click.option('-H', '--header-row', is_flag=True, help="Flags that you want the first row of each CSV file counted as a header row and removed from the count.")
+@click.option('-d', '--depth', type=int, help="Sets the directory depth that cdr will continue searching for CSV files.")
+@click.option('-x', '--columns', type=click.Choice(['MIN', 'MAX', 'MEAN', 'SINGLE']), help="Flag that you want the output to show the minimum, maximum, mean/average number of columns for those found, or the number of single-column files.")
+
+def cli(count_files, header_row, blank, readable, dir, depth, columns):
     """
     cdr: A CLI tool for counting rows, columns, and files in CSV/TSV datasets.
     """
@@ -17,32 +21,56 @@ def cli(count_files, blank, readable, dir):
     total_files = 0
     total_blank_files = 0
 
-    # Loop through each CSV/TSV file in the directory
+    def rel_depth(path):
+        return len(os.path.relpath(path, dir).split(os.sep)) - 1
+
+    
+    column_stats = []
+
+    def calc_column_metrics():
+        if columns == "MIN":
+            return min(column_stats)
+        elif columns == "MAX":
+            return max(column_stats)
+        elif columns == "MEAN":
+            return sum(column_stats) / len(column_stats)
+        elif columns == "SINGLE":
+            return sum(1 for x in column_stats if x == 1)
+
     for root, _, files in os.walk(dir):
+        if depth is not None and rel_depth(root) > depth:
+            continue
+
         for file in files:
             if file.endswith(('.csv', '.tsv')):
                 total_files += 1
                 filepath = os.path.join(root, file)
 
                 if blank:
-                    # Count blank or broken files
                     if os.path.getsize(filepath) == 0:
                         total_blank_files += 1
                 else:
-                    # Count the number of rows in each file
                     with open(filepath, 'r') as f:
-                        file_rows = sum(1 for line in f) - 1  # Exclude header
+                        for line in f:
+                            num_columns = len(line.split(","))
+                            column_stats.append(num_columns)
+                        file_rows = sum(1 for line in f)
+                        if header_row:
+                            file_rows -= 1
                         total_rows += file_rows
 
-    if count_files:
+    if columns:
+        output = f"CSV/TSV {columns.lower()} columns: {calc_column_metrics()}"
+    elif count_files:
         output = f"CSV/TSV files found: {total_files}"
     elif blank:
         output = f"CSV/TSV blank or broken files found: {total_blank_files}"
     else:
         output = f"CSV/TSV rows: {total_rows}"
 
+
     if readable:
-        output = output.replace(",", "")  # Remove commas for now; can use a more advanced formatter later
+        output = output.replace(",", "")
 
     console.print(output)
 
