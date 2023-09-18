@@ -1,8 +1,7 @@
+import csv
 import click
 import os
-from rich.console import Console
 
-console = Console()
 
 @click.command()
 @click.option('-c', '--count-files', is_flag=True, help="Count CSV/TSV files instead of rows.")
@@ -23,7 +22,6 @@ def cli(count_files, header_row, blank, readable, dir, depth, columns):
 
     def rel_depth(path):
         return len(os.path.relpath(path, dir).split(os.sep)) - 1
-
     
     column_stats = []
 
@@ -36,11 +34,11 @@ def cli(count_files, header_row, blank, readable, dir, depth, columns):
             return sum(column_stats) / len(column_stats)
         elif columns == "SINGLE":
             return sum(1 for x in column_stats if x == 1)
-
+    
     for root, _, files in os.walk(dir):
         if depth is not None and rel_depth(root) > depth:
             continue
-
+        
         for file in files:
             if file.endswith(('.csv', '.tsv')):
                 total_files += 1
@@ -49,15 +47,19 @@ def cli(count_files, header_row, blank, readable, dir, depth, columns):
                 if blank:
                     if os.path.getsize(filepath) == 0:
                         total_blank_files += 1
+                
                 else:
                     with open(filepath, 'r') as f:
-                        for line in f:
-                            num_columns = len(line.split(","))
+                        csv_reader = csv.reader(f)
+                        file_rows = 0
+                        for row in csv_reader:
+                            num_columns = len(row)
                             column_stats.append(num_columns)
-                        file_rows = sum(1 for line in f)
+                            file_rows += 1
                         if header_row:
                             file_rows -= 1
                         total_rows += file_rows
+
 
     if columns:
         output = f"CSV/TSV {columns.lower()} columns: {calc_column_metrics()}"
@@ -70,9 +72,10 @@ def cli(count_files, header_row, blank, readable, dir, depth, columns):
 
 
     if readable:
-        output = output.replace(",", "")
+        output = "{:,}".format(str(output))
 
-    console.print(output)
+
+    print(output)
 
 if __name__ == "__main__":
     cli()

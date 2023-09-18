@@ -5,4 +5,4 @@ requires = ["setuptools", "wheel"]
 name = "cdr"
 version = "0.1.0"
 description = "A CLI tool for counting rows, columns, and files in CSV/TSV datasets"
-author = "Cultural Attaché Bicheno"
+author = "Kieran Bicheno"
