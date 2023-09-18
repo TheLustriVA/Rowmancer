@@ -1,8 +1,2 @@
 [build-system]
 requires = ["setuptools", "wheel"]
-
-[tool.setuptools]
-name = "cdr"
-version = "0.1.0"
-description = "A CLI tool for counting rows, columns, and files in CSV/TSV datasets"
-author = "Kieran Bicheno"

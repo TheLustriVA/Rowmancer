@@ -8,7 +8,6 @@ setup(
     install_requires=[
         'click',
         'rich',
-        'toml',
         'csv'
     ],
     entry_points={
