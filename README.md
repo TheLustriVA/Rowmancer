@@ -17,13 +17,13 @@ This project is under the Apache 2.0 License. See the [LICENSE](LICENSE) file fo
 1. Clone the repository
 
     ```bash
-    git clone https://github.com/yourusername/cdr.git
+    git clone https://github.com/TheLustriVA/Rowmancer.git
     ```
 
 2. Navigate to the project directory
 
     ```bash
-    cd cdr
+    cd RowMancer
     ```
 
 3. Install the package
@@ -37,7 +37,7 @@ This project is under the Apache 2.0 License. See the [LICENSE](LICENSE) file fo
 You can also install the package from PyPI (once it's published):
 
 ```bash
-pip install cdr
+pip install RowMancer
 
 ```
 
@@ -46,7 +46,7 @@ pip install cdr
 Run the tool with no options to count all rows in all `.csv` and `.tsv` files in the current directory and its subdirectories:
 
 ```bash
-cdr
+Rowmancer
 ```
 
 ### Options
@@ -55,49 +55,49 @@ cdr
     - Count the number of `.csv` and `.tsv` files instead of rows.
 
     ```bash
-    cdr --count-files
+    RowMancer --count-files
     ```
 
 2. Blank Files: `-b, --blank`
     - Count the number of blank or non-parsable `.csv` and `.tsv` files.
 
     ```bash
-    cdr --blank
+    RowMancer --blank
     ```
 
 3. Readable Numbers: `-l, --readable`
     - Show numbers in a more readable format (e.g., 1,000 instead of 1000).
 
     ```bash
-    cdr --readable
+    RowMancer --readable
     ```
 
 4. Directory: `dir`
     - Specify the directory to start the search.
 
     ```bash
-    cdr /path/to/directory
+    RowMancer /path/to/directory
     ```
 
 5. Header Row: `-H, --header-row`
     - Exclude the first row from each `.csv` file in the count.
 
     ```bash
-    cdr --header-row
+    RowMancer --header-row
     ```
 
 6. Depth: `-d, --depth`
     - Set the directory depth for the search.
 
     ```bash
-    cdr --depth 2
+    RowMancer --depth 2
     ```
 
 7. Column Stats: `-x, --columns`
     - Show column statistics (MIN, MAX, MEAN, SINGLE).
 
     ```bash
-    cdr --columns MIN
+    RowMancer --columns MIN
     ```
 
 ## Contributing

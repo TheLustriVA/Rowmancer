@@ -2,7 +2,7 @@
 import unittest
 from unittest.mock import patch
 from click.testing import CliRunner
-from cdr.cli import cli
+from RowMancer.cli import cli
 
 class TestCLI(unittest.TestCase):
 
