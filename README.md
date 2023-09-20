@@ -23,7 +23,7 @@ This project is under the Apache 2.0 License. See the [LICENSE](LICENSE) file fo
 2. Navigate to the project directory
 
     ```bash
-    cd RowMancer
+    cd Rowmancer
     ```
 
 3. Install the package
