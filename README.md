@@ -1,6 +1,6 @@
 # RowMancer: CSV/TSV Data Reporter
 
-![CDR_banner](assets/RowMancer_Banner.png)
+![RowMancer_banner](assets/RowMancer_Basev3.png)
 
 ## Description
 
@@ -34,7 +34,7 @@ This project is under the Apache 2.0 License. See the [LICENSE](LICENSE) file fo
 
 ### From PyPI
 
-You can also install the package from PyPI (once it's published):
+You can also install the package from PyPI:
 
 ```bash
 pip install RowMancer

@@ -24,7 +24,7 @@ import os
     "-d",
     "--depth",
     type=int,
-    help="Sets the directory depth that cdr will continue searching for CSV files.",
+    help="Sets the directory depth that RowMancer will continue searching for CSV files.",
 )
 @click.option(
     "-x",
@@ -34,7 +34,7 @@ import os
 )
 def cli(count_files, header_row, blank, readable, dir, depth, columns):
     """
-    cdr: A CLI tool for counting rows, columns, and files in CSV/TSV datasets.
+    RowMancer: A CLI tool for counting rows, columns, and files in CSV/TSV datasets.
     """
     total_rows = 0
     total_files = 0
